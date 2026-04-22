@@ -135,3 +135,8 @@ all.config
 # fetched Android config fragments
 kernel/configs/android-*.cfg
 boot/stock_boot.img
+out/
+KernelSU/
+*patches.sh
+build-fork.sh
+error.log
