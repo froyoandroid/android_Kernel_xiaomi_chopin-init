@@ -83,7 +83,7 @@ EXPORT_SYMBOL_GPL(probe_kernel_write);
  * If @count is smaller than the length of the string, copies @count-1 bytes,
  * sets the last byte of @dst buffer to NUL and returns @count.
  */
-long strncpy_from_user_nofault(char *dst, const void *unsafe_addr, long count)
+long strncpy_from_unsafe(char *dst, const void *unsafe_addr, long count)
 {
 	mm_segment_t old_fs = get_fs();
 	const void *src = unsafe_addr;

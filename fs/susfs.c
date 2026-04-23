@@ -25,6 +25,13 @@
 #include "fuse/fuse_i.h"
 #include "mount.h"
 
+#ifdef CONFIG_KSU
+DEFINE_STATIC_KEY_TRUE(ksu_init_rc_hook_key_false);
+DEFINE_STATIC_KEY_TRUE(ksu_input_hook_key_false);
+DEFINE_STATIC_KEY_TRUE(ksu_is_init_rc_hook_enabled);
+DEFINE_STATIC_KEY_TRUE(ksu_is_input_hook_enabled);
+#endif
+
 extern bool susfs_is_current_ksu_domain(void);
 extern void setup_selinux(const char *domain, struct cred *cred);
 
