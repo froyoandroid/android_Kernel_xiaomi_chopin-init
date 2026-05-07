@@ -1227,7 +1227,8 @@ SYSCALL_DEFINE1(newuname, struct new_utsname __user *, name)
 	}
 
 #ifdef CONFIG_KSU_SUSFS_SPOOF_UNAME
-	if (static_branch_likely(&susfs_is_uname_spoof_buffer_set))
+	if (static_branch_likely(&susfs_is_uname_spoof_buffer_set) &&
+	    __kuid_val(current_uid()) >= 10000)
 		susfs_spoof_uname(&tmp);
 #endif
 	up_read(&uts_sem);
