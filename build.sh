@@ -5,7 +5,7 @@ DATE=$(date '+%Y%m%d-%H%M')
 
 DEVICE="${1:-chopin}"
 DEFCONFIG="${DEVICE}_defconfig"
-ZIPNAME="Exordium${DEVICE}-${DATE}.zip"
+ZIPNAME="Exordium-${DEVICE}-${DATE}.zip"
 
 echo -e "Building for: $DEVICE\n"
 
@@ -61,8 +61,8 @@ MAKE_FLAGS=(
 make "${MAKE_FLAGS[@]}" $DEFCONFIG
 
 echo -e "\nStarting compilation...\n"
-make -j$(nproc --all) "${MAKE_FLAGS[@]}" Image.gz 2>&1 | tee error.log
-if [ "${PIPESTATUS[0]}" -eq 0 ]; then
+make -j$(nproc --all) "${MAKE_FLAGS[@]}" Image.gz
+if [ "$?" -eq 0 ]; then
   echo -e "\nKernel compiled successfully! Zipping up...\n"
   git clone -q --depth=1 https://github.com/froyoandroid/AnyKernel3 AnyKernel3
   cp out/arch/arm64/boot/Image.gz AnyKernel3
