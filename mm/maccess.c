@@ -67,7 +67,7 @@ long __probe_kernel_write(void *dst, const void *src, size_t size)
 EXPORT_SYMBOL_GPL(probe_kernel_write);
 
 /**
- * strncpy_from_user_nofault: - Copy a NUL terminated string from unsafe address.
+ * strncpy_from_unsafe: - Copy a NUL terminated string from unsafe address.
  * @dst:   Destination address, in kernel space.  This buffer must be at
  *         least @count bytes long.
  * @src:   Unsafe address.
@@ -83,7 +83,7 @@ EXPORT_SYMBOL_GPL(probe_kernel_write);
  * If @count is smaller than the length of the string, copies @count-1 bytes,
  * sets the last byte of @dst buffer to NUL and returns @count.
  */
-long strncpy_from_user_nofault(char *dst, const void __user *unsafe_addr, long count)
+long strncpy_from_kernel_nofault(char *dst, const void *unsafe_addr, long count)
 {
 	mm_segment_t old_fs = get_fs();
 	const void *src = unsafe_addr;
@@ -104,5 +104,33 @@ long strncpy_from_user_nofault(char *dst, const void __user *unsafe_addr, long c
 	set_fs(old_fs);
 
 	return ret ? -EFAULT : src - unsafe_addr;
+}
+EXPORT_SYMBOL_GPL(strncpy_from_kernel_nofault);
+
+long strncpy_from_unsafe(char *dst, const void *unsafe_addr, long count)
+	__attribute__((alias("strncpy_from_kernel_nofault")));
+
+long strncpy_from_user_nofault(char *dst, const void __user *unsafe_addr, long count)
+{
+	mm_segment_t old_fs = get_fs();
+	long ret;
+
+	if (unlikely(count <= 0))
+		return 0;
+
+	set_fs(USER_DS);
+	pagefault_disable();
+	ret = strncpy_from_user(dst, unsafe_addr, count);
+	pagefault_enable();
+	set_fs(old_fs);
+
+	if (ret >= count) {
+		ret = count;
+		dst[count-1] = '\0';
+	} else if (ret > 0) {
+		ret++;
+	}
+
+	return ret;
 }
 EXPORT_SYMBOL_GPL(strncpy_from_user_nofault);
