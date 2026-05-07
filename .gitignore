@@ -38,17 +38,8 @@
 *.su
 *.symtypes
 *.tar
-*.gz
-*.bz2
-*.lzma
 *.xz
-*.lz4
-*.lzo
-*.zst
-*.rej
-*.patch
-*.gcno
-*.ll
+Module.symvers
 modules.builtin
 
 #
@@ -134,4 +125,10 @@ all.config
 
 # fetched Android config fragments
 kernel/configs/android-*.cfg
-boot/stock_boot.img
+out/
+KernelSU/
+*patches.sh
+*.gb6
+*.zip
+*dump.txt
+exhorizon_logs/
