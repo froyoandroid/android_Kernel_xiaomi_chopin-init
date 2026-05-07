@@ -1,0 +1,22 @@
+--- net/ipv4/Kconfig	2022-11-11 00:57:58.000000000 +0800
++++ net/ipv4/Kconfig	2022-11-13 11:41:21.804186916 +0800
+@@ -665,9 +665,18 @@
+ 	bufferbloat, policers, or AQM schemes that do not provide a delay
+ 	signal. It requires the fq ("Fair Queue") pacing packet scheduler.
+ 
++config TCP_CONG_BBRPLUS
++        tristate "BBRPLUS TCP"
++        default y
++        ---help---
++
++        BBRplus is an enhanced version of BBR (Bottleneck Bandwidth and RTT).
++        Originally introduced by dog250 & cx9208.
++        Same as BBR, requires the fq ("Fair Queue") pacing packet scheduler.
++
+ choice
+ 	prompt "Default TCP congestion control"
+-	default DEFAULT_CUBIC
++	default DEFAULT_BBRPLUS
+ 	help
+ 	  Select the TCP congestion control that will be used by default
+ 	  for all connections.

@@ -219,6 +219,10 @@ int tcp_set_default_congestion_control(const char *name)
 	struct tcp_congestion_ops *ca;
 	int ret = -ENOENT;
 
+	/* Blocking userspace from overriding bbrplus to bic or cubic */
+	if (!strcmp(name, "bic") || !strcmp(name, "cubic"))
+		return 0;
+
 	spin_lock(&tcp_cong_list_lock);
 	ca = tcp_ca_find(name);
 #ifdef CONFIG_MODULES

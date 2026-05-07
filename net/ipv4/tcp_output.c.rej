@@ -1,0 +1,11 @@
+--- net/ipv4/tcp_output.c	2022-11-11 00:57:58.000000000 +0800
++++ net/ipv4/tcp_output.c	2022-11-13 11:41:21.808186939 +0800
+@@ -1736,7 +1736,7 @@
+ /* Return how many segs we'd like on a TSO packet,
+  * to send one TSO packet per ms
+  */
+-static u32 tcp_tso_autosize(const struct sock *sk, unsigned int mss_now,
++u32 tcp_tso_autosize(const struct sock *sk, unsigned int mss_now,
+ 			    int min_tso_segs)
+ {
+ 	u32 bytes, segs;

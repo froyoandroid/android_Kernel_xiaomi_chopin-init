@@ -1,0 +1,13 @@
+--- include/net/inet_connection_sock.h	2022-11-11 00:57:58.000000000 +0800
++++ include/net/inet_connection_sock.h	2022-11-13 11:41:21.804186916 +0800
+@@ -138,8 +138,8 @@
+ 	u32			  icsk_probes_tstamp;
+ 	u32			  icsk_user_timeout;
+ 
+-	u64			  icsk_ca_priv[104 / sizeof(u64)];
+-#define ICSK_CA_PRIV_SIZE      (13 * sizeof(u64))
++	u64			  icsk_ca_priv[112 / sizeof(u64)];
++#define ICSK_CA_PRIV_SIZE      (14 * sizeof(u64))
+ };
+ 
+ #define ICSK_TIME_RETRANS	1	/* Retransmit timer */
